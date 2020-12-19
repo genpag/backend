@@ -18,7 +18,7 @@ jobs:
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       id: extract_branch
     - name: "Delete branch"
-      if:  steps.extract_branch.outputs.branch != "master"
+      if:  ${{ steps.extract_branch.outputs.branch != 'master' }}
       uses: dawidd6/action-delete-branch@v3
       with:
         github_token: ${{github.token}}
