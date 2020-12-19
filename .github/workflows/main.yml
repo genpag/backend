@@ -3,7 +3,7 @@ name: Mirroring
 on: [push]
 
 jobs:
-  to_gitlab:
+  to_github:
     runs-on: ubuntu-18.04
     steps:                                              # <-- must use actions/checkout@v1 before mirroring!
     - uses: actions/checkout@v1
@@ -13,3 +13,9 @@ jobs:
           git@github.com:neru-pagamentos/backend-solutions.git
         ssh_private_key:                                # <-- use 'secrets' to pass credential information.
           ${{ secrets.PRIVATE_KEY }}
+    - name: "Delete branch"
+      if: ${GITHUB_REF##*/} != "master"
+      uses: dawidd6/action-delete-branch@v3
+      with:
+        github_token: ${{github.token}}
+        branches: ${GITHUB_REF##*/}
