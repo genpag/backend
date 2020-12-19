@@ -5,7 +5,7 @@ on: [push]
 jobs:
   to_github:
     runs-on: ubuntu-18.04
-    if: ${{ github.repository == 'backend' }}
+    if: ${{ github.repository == 'neru-pagamentos/backend' }}
     steps:                                              # <-- must use actions/checkout@v1 before mirroring!
     - uses: actions/checkout@v1
     - uses: pixta-dev/repository-mirroring-action@v1
