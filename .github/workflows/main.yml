@@ -13,8 +13,12 @@ jobs:
           git@github.com:neru-pagamentos/backend-solutions.git
         ssh_private_key:                                # <-- use 'secrets' to pass credential information.
           ${{ secrets.PRIVATE_KEY }}
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
     - name: "Delete branch"
-      if: ${GITHUB_REF##*/} != "master"
+      if:  steps.extract_branch.outputs.branch != "master"
       uses: dawidd6/action-delete-branch@v3
       with:
         github_token: ${{github.token}}
