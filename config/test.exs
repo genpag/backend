@@ -18,5 +18,9 @@ config :backend, BackendWeb.Endpoint,
   http: [port: 4002],
   server: false
 
+# Config the clients module in test enviroment. It's necessary to create
+# a mock and test resources.
+config :backend, :viacep_api, Backend.ViacepAPI.InMemory
+
 # Print only warnings and errors during test
 config :logger, level: :warn

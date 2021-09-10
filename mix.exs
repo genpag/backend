@@ -44,7 +44,10 @@ defmodule Backend.MixProject do
       {:telemetry_poller, "~> 0.4"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:httpoison, "~> 1.7"},
+      {:ex_machina, "~> 2.7.0", only: :test}
     ]
   end
 
