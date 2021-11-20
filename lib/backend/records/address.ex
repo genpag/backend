@@ -37,6 +37,11 @@ defmodule Backend.Records.Address do
     |> validate_postal_code_search(:update)
   end
 
+  def delete_changeset(address, attrs) do
+    address
+    |> cast(attrs, [:street, :number, :complement, :neighborhood, :city, :state, :postal_code])
+  end
+
   defp validate_postal_code_search(changeset, operation) do
     postal_code = get_postal_code_by_operation(operation, changeset)
 

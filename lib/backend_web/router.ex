@@ -16,7 +16,7 @@ defmodule BackendWeb.Router do
   scope "/api", BackendWeb do
     pipe_through :api
 
-    resources "/accounts", AccountController, only: [:create, :show, :update]
+    resources "/accounts", AccountController, only: [:create, :show, :update, :delete]
   end
 
   if Mix.env() in [:dev, :test] do

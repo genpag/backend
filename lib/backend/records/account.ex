@@ -32,6 +32,12 @@ defmodule Backend.Records.Account do
     |> verify_change_cpf_block
   end
 
+  def delete_changeset(account, attrs) do
+    account
+    |> cast(attrs, [:name, :cpf])
+    |> cast_assoc(:address, require: true, with: &Backend.Records.Address.delete_changeset/2)
+  end
+
   defp verify_change_cpf_block(changeset) do
     case get_change(changeset, :cpf) do
       nil ->

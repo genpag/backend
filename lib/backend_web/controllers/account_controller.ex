@@ -51,6 +51,29 @@ defmodule BackendWeb.AccountController do
     end
   end
 
+  def delete(conn, %{"id" => id} = params) do
+    case Backend.Repo.get(Account, id) do
+      nil ->
+        json(conn, %{message: "delete error: account not found with id = #{id}", error: true})
+      account ->
+        changeset = Backend.Repo.preload(account, :address)
+        |> Account.delete_changeset(params)
+
+        case changeset.valid? do
+          true ->
+            case Backend.Repo.delete(changeset) do
+              {:ok, account} ->
+                json(conn, %{message: "deleted", account: account})
+              {:error, changeset} ->
+                json_error_message(conn, "delete error", changeset)
+            end
+          false ->
+            json_error_message(conn, "delete error", changeset)
+        end
+    end
+
+  end
+
   defp json_error_message(conn, message, changeset) do
     json(conn, %{message: message, error: true, result: Ecto.Changeset.traverse_errors(changeset, &BackendWeb.ErrorHelpers.translate_error/1)})
   end
