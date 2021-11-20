@@ -13,10 +13,10 @@ defmodule BackendWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", BackendWeb do
+  scope "/api", BackendWeb do
     pipe_through :api
 
-
+    resources "/accounts", AccountController, only: [:create]
   end
 
   if Mix.env() in [:dev, :test] do
