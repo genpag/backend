@@ -28,12 +28,21 @@ defmodule Backend.Records.Address do
     |> validate_postal_code_search(:create)
   end
 
+  def update_changeset(address, attrs) do
+    address
+    |> cast(attrs, [:street, :number, :complement, :neighborhood, :city, :state, :postal_code])
+    |> validate_length(:state, min: 2, max: 2)
+    |> validate_length(:postal_code, min: 8)
+    |> CommonsValidations.validate_only_number(:postal_code, &get_change/2)
+    |> validate_postal_code_search(:update)
+  end
+
   defp validate_postal_code_search(changeset, operation) do
     postal_code = get_postal_code_by_operation(operation, changeset)
 
     case postal_code do
       nil ->
-        add_error(changeset, :postal_code, "it's required")
+        if operation == :create, do: add_error(changeset, :postal_code, "it's required"), else: changeset
       _ ->
         case Tesla.get("https://viacep.com.br/ws/#{postal_code}/json/") do
           {:ok, tesla_env} ->

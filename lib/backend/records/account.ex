@@ -8,7 +8,7 @@ defmodule Backend.Records.Account do
     field :cpf, :string
     field :name, :string
 
-    has_one :address, Backend.Records.Address
+    has_one :address, Backend.Records.Address, on_replace: :update
 
     timestamps()
   end
@@ -21,6 +21,23 @@ defmodule Backend.Records.Account do
     |> CommonsValidations.validate_only_number(:cpf, &get_field/2)
     |> validate_length(:cpf, min: 11, max: 11)
     |> validate_required([:name, :cpf, :address])
-    |> unique_constraint([:cpf])
+    |> unique_constraint(:cpf)
+  end
+
+  def update_changeset(account, attrs) do
+    account
+    |> cast(attrs, [:name, :cpf])
+    |> cast_assoc(:address, with: &Backend.Records.Address.update_changeset/2)
+    |> CommonsValidations.validate_only_number(:cpf, &get_change/2)
+    |> verify_change_cpf_block
+  end
+
+  defp verify_change_cpf_block(changeset) do
+    case get_change(changeset, :cpf) do
+      nil ->
+        changeset
+      _ ->
+        add_error(changeset, :cpf, "cannot be changed")
+    end
   end
 end
