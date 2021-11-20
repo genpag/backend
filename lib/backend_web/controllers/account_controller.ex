@@ -20,6 +20,16 @@ defmodule BackendWeb.AccountController do
     end
   end
 
+  def show(conn, %{"id" => id}) do
+    case Backend.Repo.get(Account, id) do
+      nil ->
+        json(conn, %{message: "show error: account not found with id = #{id}", error: true})
+      account ->
+        account = Backend.Repo.preload(account, :address)
+        json(conn, %{message: "shown", account: account})
+    end
+  end
+
   defp json_error_message(conn, message, changeset) do
     json(conn, %{message: message, error: true, result: Ecto.Changeset.traverse_errors(changeset, &BackendWeb.ErrorHelpers.translate_error/1)})
   end
