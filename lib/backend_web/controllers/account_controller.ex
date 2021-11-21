@@ -74,23 +74,38 @@ defmodule BackendWeb.AccountController do
     end
   end
 
-  def list(conn, %{"limit" => limit} = params) do
-    limit = if limit == nil, do: 10
-    offset = if params["offset"] == nil, do: 0
+  def list(conn, params) do
+    limit = params["limit"]
+    offset = params["offset"]
 
-    accounts = from(a in Account, limit: ^limit, offset: ^offset, preload: :address)
-    |> Backend.Repo.all
+    IO.inspect(limit)
+    IO.inspect(offset)
 
-    IO.inspect(accounts)
+    case limit do
+      nil ->
+        case offset do
+          nil ->
+            from(a in Account, preload: :address)
+            |> json_send_list(conn)
+          _ ->
+            from(a in Account, offset: ^offset, preload: :address)
+            |> json_send_list(conn)
+        end
 
-    json(conn, %{message: "listed", accounts: accounts})
+      _ ->
+        case offset do
+          nil ->
+            from(a in Account, limit: ^limit, preload: :address)
+            |> json_send_list(conn)
+          _ ->
+            from(a in Account, limit: ^limit, offset: ^offset, preload: :address)
+            |> json_send_list(conn)
+        end
+    end
   end
 
-  def list(conn, _param) do
-    accounts = from(a in Account)
-    |> Backend.Repo.all
-    |> Backend.Repo.preload(:address)
-
+  defp json_send_list(accounts, conn) do
+    accounts = Backend.Repo.all(accounts)
     json(conn, %{message: "listed", accounts: accounts})
   end
 

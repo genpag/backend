@@ -68,6 +68,7 @@ defmodule Backend.Records.Address do
                     |> change_when_field_nil(operation, :city, body["localidade"])
                     |> change_when_field_nil(operation, :neighborhood, body["bairro"])
                     |> change_when_field_nil(operation, :street, body["logradouro"])
+                    |> change_when_field_nil(operation, :complement, body["complemento"])
                   changeset
               end
             else
