@@ -78,9 +78,6 @@ defmodule BackendWeb.AccountController do
     limit = params["limit"]
     offset = params["offset"]
 
-    IO.inspect(limit)
-    IO.inspect(offset)
-
     case limit do
       nil ->
         case offset do
