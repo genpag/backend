@@ -16,6 +16,7 @@ defmodule BackendWeb.Router do
   scope "/api", BackendWeb do
     pipe_through :api
 
+    get "/accounts", AccountController, :list
     resources "/accounts", AccountController, only: [:create, :show, :update, :delete]
   end
 

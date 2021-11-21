@@ -1,5 +1,6 @@
 defmodule BackendWeb.AccountController do
   use BackendWeb, :controller
+  import Ecto.Query
   alias Backend.Records.Account
 
   def create(conn, %{"account" => account_params}) do
@@ -71,7 +72,26 @@ defmodule BackendWeb.AccountController do
             json_error_message(conn, "delete error", changeset)
         end
     end
+  end
 
+  def list(conn, %{"limit" => limit} = params) do
+    limit = if limit == nil, do: 10
+    offset = if params["offset"] == nil, do: 0
+
+    accounts = from(a in Account, limit: ^limit, offset: ^offset, preload: :address)
+    |> Backend.Repo.all
+
+    IO.inspect(accounts)
+
+    json(conn, %{message: "listed", accounts: accounts})
+  end
+
+  def list(conn, _param) do
+    accounts = from(a in Account)
+    |> Backend.Repo.all
+    |> Backend.Repo.preload(:address)
+
+    json(conn, %{message: "listed", accounts: accounts})
   end
 
   defp json_error_message(conn, message, changeset) do
