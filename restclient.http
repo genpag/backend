@@ -1,0 +1,50 @@
+GET http://localhost:4000/api/accounts/3e3dc8f6-a743-4062-9c00-b77ea3c5cde0
+
+###
+
+GET http://localhost:4000/api/accounts?limit=2&offset=0
+
+###
+
+GET http://localhost:4000/api/accounts
+
+###
+### 38a626fb-bc4e-4679-931c-47b3f9fd5df4
+### db1aea83-2e83-4f06-8ac4-1a5eb9740cae
+DELETE http://localhost:4000/api/accounts/38a626fb-bc4e-4679-931c-47b3f9fd5df4
+
+###
+
+PUT http://localhost:4000/api/accounts/3e3dc8f6-a743-4062-9c00-b77ea3c5cde0
+content-type: application/json
+
+{
+    "name": "Alberto Roberto",
+    "cpf": "12345678933",
+    "address": {
+        "street": "Rua ABC",
+        "number": "7",
+        "complement": "casa",
+        "city": "serra",
+        "state": "ES",
+        "postal_code": "29000000"
+    }
+}
+
+###
+
+POST http://localhost:4000/api/accounts
+content-type: application/json
+
+{
+    "name": "Wagner",
+    "cpf": "12345678973",
+    "address": {
+        "street": "Rua ABC",
+        "number": "7",
+        "complement": "casa",
+        "city": "serra",
+        "state": "ES",
+        "postal_code": "29176195"
+    }
+}

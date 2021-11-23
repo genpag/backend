@@ -1,6 +1,8 @@
 defmodule BackendWeb.Router do
   use BackendWeb, :router
 
+  alias BackendWeb.Plugs.UUIDVerifier
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -11,6 +13,13 @@ defmodule BackendWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug UUIDVerifier
+  end
+
+  scope "/api", BackendWeb do
+    pipe_through :api
+
+    resources "/accounts", AccountsController, except: [:new, :edit]
   end
 
   scope "/", BackendWeb do

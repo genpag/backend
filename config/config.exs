@@ -10,6 +10,11 @@ use Mix.Config
 config :backend,
   ecto_repos: [Backend.Repo]
 
+# config :backend, Backend.Repo,
+#   migration_primary_key: [type: :binary_id],
+#   migration_foreign_key: [type: :binary_id]
+
+
 # Configures the endpoint
 config :backend, BackendWeb.Endpoint,
   url: [host: "localhost"],
