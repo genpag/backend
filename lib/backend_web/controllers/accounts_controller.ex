@@ -2,41 +2,17 @@ defmodule BackendWeb.AccountsController do
     use BackendWeb, :controller
 
     alias Backend.Account
-    alias Backend.ConsultaCep.ConsultaCep
-    alias Backend.Helpers.Helpers
-
     alias BackendWeb.FallbackController
 
     action_fallback FallbackController
 
     def create(conn, params) do
-        address = params
-        |> get_address()
-        |> Helpers.merge_address_map()
-
-        with address when is_map(address) <- address,
-        {:ok, %Account{} = account} <- Backend.create_account(params)
-        do
-
-            IO.inspect(account, label: "account ==")
-        # uncomment after test
+        #//TODO
+        IO.inspect(params, label: "PARAMS ==================")
+        with {:ok, %Account{} = account} <- Backend.create_account(params) do
            conn
            |> put_status(:created)
            |> render("create.json", account: account)
-
-        # remove after test
-        conn
-            |> put_status(:no_content)
-            |> text("")
-        end
-    end
-
-    defp get_address(values) do
-        with true <- Map.has_key?(values, "address"),
-            true <- Map.has_key?(values["address"], "postal_code"),
-            {:ok, _cpf_length} <- Helpers.verify_cep_length(values["address"]["postal_code"]) do
-
-            ConsultaCep.busca_cep(values["address"]["postal_code"])
         end
     end
 

@@ -38,7 +38,7 @@ content-type: application/json
 
 {
     "name": "Wagner",
-    "cpf": "12345678973",
+    "cpf": "12345678989",
     "address": {
         "street": "Rua ABC",
         "number": "7",
