@@ -20,9 +20,11 @@ defmodule BackendWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", BackendWeb do
-  #   pipe_through :api
-  # end
+   scope "/api", BackendWeb do
+     pipe_through :api
+
+     post "/accounts", AccountController, :create
+   end
 
   # Enables LiveDashboard only for development
   #

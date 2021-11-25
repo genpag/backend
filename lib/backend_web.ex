@@ -23,6 +23,8 @@ defmodule BackendWeb do
 
       import Plug.Conn
       import BackendWeb.Gettext
+      alias Backend.Helpers.ConnHelper
+      alias Backend.Helpers.ResponseHelper
       alias BackendWeb.Router.Helpers, as: Routes
     end
   end
@@ -32,6 +34,8 @@ defmodule BackendWeb do
       use Phoenix.View,
         root: "lib/backend_web/templates",
         namespace: BackendWeb
+
+      alias Backend.Helpers.ResponseHelper
 
       # Import convenience functions from controllers
       import Phoenix.Controller,
