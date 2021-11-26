@@ -5,6 +5,13 @@ defmodule Backend.Accounts do
 
   alias Backend.Services.Repo.AccountsRepo
 
+  def get_account(id) do
+    case AccountsRepo.get_account(id) do
+      {:ok, account} -> {:ok, account}
+      _ -> {:error, :account_not_found}
+    end
+  end
+
   def create(params) do
     address_params = get_address_field(params)
     postal_code_params = get_postal_code_field(params)

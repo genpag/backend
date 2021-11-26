@@ -3,6 +3,33 @@ defmodule BackendWeb.AccountControllerTest do
 
   import Mox
 
+  alias Backend.AccountFactory
+
+  describe "show/2" do
+    setup do
+      account = AccountFactory.insert(:account)
+      %{account: account}
+    end
+
+    test "return get account success", %{conn: conn, account: account} do
+      account_id = account.id
+      conn =
+        conn
+        |> get(Routes.account_path(conn, :show, account_id))
+
+      assert %{"id" => _} = json_response(conn, 200)["data"]["account"]
+    end
+
+    test "return get account when is not found", %{conn: conn, account: account} do
+      account_id = account.id + 100
+      conn =
+        conn
+        |> get(Routes.account_path(conn, :show, account_id))
+
+      assert conn.status == 404
+    end
+  end
+
   describe "create/2" do
     setup :verify_on_exit!
 
