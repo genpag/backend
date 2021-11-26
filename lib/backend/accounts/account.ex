@@ -28,6 +28,6 @@ defmodule Backend.Accounts.Account do
     |> cast(attrs, @cast_changeset_fields)
     |> validate_required(@required_changeset_fields)
     |> unique_constraint(:cpf)
-    |> cast_assoc(:address)
+    |> cast_assoc(:address, required: true)
   end
 end

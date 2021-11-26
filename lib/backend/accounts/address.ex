@@ -16,14 +16,11 @@ defmodule Backend.Accounts.Address do
 
   @required_changeset_fields ~w(
     postal_code
-  )a
-
-  @required_fields_when_post_code_exist ~w(
     street
     neighborhood
     city
     state
-  )
+  )a
 
   schema "addresses" do
     field :street, :string
@@ -39,9 +36,17 @@ defmodule Backend.Accounts.Address do
     timestamps()
   end
 
-  def changeset(status, attrs) do
-    status
+  def changeset(address, attrs) do
+    address
     |> cast(attrs, @cast_changeset_fields)
     |> validate_required(@required_changeset_fields)
+    |> validate_length(:postal_code, is: 8)
+  end
+
+  def changeset_postal_code(attrs) do
+    %__MODULE__{}
+    |> cast(attrs, [:postal_code])
+    |> validate_required([:postal_code])
+    |> validate_length(:postal_code, is: 8)
   end
 end

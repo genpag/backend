@@ -20,3 +20,5 @@ config :backend, BackendWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :backend, :via_cep_api, Backend.Services.Apis.MockViaCepApi

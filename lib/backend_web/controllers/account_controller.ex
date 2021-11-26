@@ -2,9 +2,11 @@ defmodule BackendWeb.AccountController do
   use BackendWeb, :controller
 
   alias Backend.Accounts
+  alias Backend.Helpers.ConnHelper
+  alias Backend.Helpers.ResponseHelper
 
   def create(conn, params) do
-    case Accounts.create_account(params) do
+    case Accounts.create(params) do
       {:ok, account} ->
         conn
         |> ConnHelper.created()

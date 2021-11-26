@@ -1,6 +1,7 @@
 defmodule Backend.Helpers.ResponseHelper do
+  def response_body(%Ecto.Changeset{} = changeset),
+    do: %{error: changeset_error_to_string(changeset)}
 
-  def response_body(%Ecto.Changeset{} = changeset), do: %{error: changeset_error_to_string(changeset)}
   def response_body(data), do: %{data: data}
 
   defp changeset_error_to_string(changeset) do

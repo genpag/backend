@@ -1,2 +1,5 @@
 ExUnit.start()
+Faker.start()
+Mox.defmock(Backend.Services.Apis.MockViaCepApi, for: ViaCepApiBehaviour)
+Application.put_env(:backend, :via_cep_api, Backend.Services.Apis.MockViaCepApi)
 Ecto.Adapters.SQL.Sandbox.mode(Backend.Repo, :manual)
