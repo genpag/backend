@@ -47,7 +47,8 @@ defmodule Backend.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:tesla, "~> 1.4.0"},
       {:mox, ">= 0.0.0", only: :test},
-      {:faker, "~> 0.16", only: :test}
+      {:faker, "~> 0.16", only: :test},
+      {:ex_machina, "~> 2.7.0", only: :test},
     ]
   end
 
